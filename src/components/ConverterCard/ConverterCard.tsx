@@ -1,10 +1,10 @@
-import { Card, CardContent, Box, TextField, MenuItem, Button } from '@mui/material'
+import { Card, CardContent, Box, TextField, MenuItem, Button, InputAdornment } from '@mui/material'
 import { useState } from 'react'
 
 const currencies = ['GBP', 'USD', 'EUR', 'JPY', 'CAD', 'AUD']
 
 export default function ConverterCard() {
-  const [amount, setAmount] = useState('')
+  const [amount, setAmount] = useState('1.00')
   const [fromCurrency, setFromCurrency] = useState('GBP')
   const [toCurrency, setToCurrency] = useState('USD')
 
@@ -15,7 +15,8 @@ export default function ConverterCard() {
         justifyContent: 'center',
         position: 'relative',
         zIndex: 3,
-        mt: { xs: -10, md: -24 }
+        mt: { xs: -12, sm: -16, md: -20 },
+        mb: 6
       }}
     >
       <Card
@@ -40,6 +41,11 @@ export default function ConverterCard() {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               fullWidth
+              slotProps={{
+                input: {
+                  startAdornment: <InputAdornment position="start">£</InputAdornment>
+                }
+              }}
             />
 
             {/* From Currency */}

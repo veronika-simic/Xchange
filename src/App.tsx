@@ -1,12 +1,16 @@
-import { CssBaseline } from '@mui/material'
+import { Container, CssBaseline } from '@mui/material'
 import HeroSection from './components/HeroSection/HeroSection'
-import ConvertCard from './components/ConvertCard/ConvertCard'
+import ConverterCard from './components/ConverterCard/ConverterCard'
+import ExchangeRatesPage from './pages/ExchangeRatesPage'
 function App() {
   return (
     <>
       <CssBaseline enableColorScheme />
       <HeroSection />
-      <ConvertCard />
+      <ConverterCard />
+      <Container sx={{ mt: 12 }}>
+        <ExchangeRatesPage />
+      </Container>
     </>
   )
 }
