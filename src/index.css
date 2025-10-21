@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background: white;
+  background-attachment: fixed;
+  color: white;
+  font-family: 'Inter';
+  height: 100%;
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+}
