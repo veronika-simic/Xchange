@@ -1,5 +1,6 @@
 import { Box } from '@mui/material'
 import Logo from './Logo'
+import SwitchButton from './SwitchButton'
 
 export default function NavigationBar() {
   return (
@@ -13,6 +14,7 @@ export default function NavigationBar() {
       }}
     >
       <Logo />
+      <SwitchButton />
     </Box>
   )
 }
