@@ -1,14 +1,25 @@
 import { CssBaseline } from '@mui/material'
+import { Routes, Route } from 'react-router-dom'
 import HeroSection from './components/HeroSection/HeroSection'
-import ConverterCard from './components/ConverterCard/ConverterCard'
 import ExchangeRatesPage from './pages/ExchangeRatesPage'
+import ConverterPage from './pages/ConverterPage'
+
 function App() {
   return (
     <>
       <CssBaseline enableColorScheme />
-      <HeroSection />
-      <ConverterCard />
-      <ExchangeRatesPage />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <HeroSection />
+              <ExchangeRatesPage />
+            </>
+          }
+        />
+        <Route path="/converter" element={<ConverterPage />} />
+      </Routes>
     </>
   )
 }

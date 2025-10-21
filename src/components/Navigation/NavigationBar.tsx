@@ -1,6 +1,7 @@
-import { Box } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import Logo from './Logo'
 import SwitchButton from './SwitchButton'
+import { Link } from 'react-router-dom'
 
 export default function NavigationBar() {
   return (
@@ -14,6 +15,19 @@ export default function NavigationBar() {
       }}
     >
       <Logo />
+      <Button
+        component={Link}
+        to="/converter"
+        variant="text"
+        sx={{
+          color: 'white',
+          textTransform: 'none',
+          fontWeight: 500,
+          '&:hover': { color: '#e0e0e0' }
+        }}
+      >
+        Convert
+      </Button>
       <SwitchButton />
     </Box>
   )
