@@ -5,7 +5,7 @@ export default function Banner() {
     <Box
       sx={{
         textAlign: 'center',
-        pb: 6
+        pb: 14
       }}
     >
       <Typography
