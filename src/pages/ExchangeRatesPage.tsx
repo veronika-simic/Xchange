@@ -1,11 +1,8 @@
-import { useState } from 'react'
 import { Container, Typography, Paper } from '@mui/material'
 import ControlsBar from '../components/ExchangeRates/ControlsBar'
 import RatesTable from '../components/ExchangeRates/RatesTable'
 
 export default function ExchangeRatesPage() {
-  const [openDialog, setOpenDialog] = useState(false)
-
   return (
     <Container sx={{ mt: 6, mb: 8 }}>
       <Typography
@@ -18,7 +15,7 @@ export default function ExchangeRatesPage() {
       </Typography>
 
       <Paper sx={{ p: 3, borderRadius: 4, mb: 6 }}>
-        <ControlsBar openDialog={openDialog} setOpenDialog={setOpenDialog} />
+        <ControlsBar />
       </Paper>
 
       <Paper sx={{ p: 3, borderRadius: 4 }}>

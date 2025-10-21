@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <CssBaseline enableColorScheme />
-      /<HeroSection />/
+      <HeroSection />
       <ConverterCard />
       <ExchangeRatesPage />
     </>

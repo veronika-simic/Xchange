@@ -1,8 +1,6 @@
-import { Box, Select, MenuItem, TextField, Button, Typography } from '@mui/material'
-import CurrenciesDialog from './CurrenciesDialog'
-import type { ControlsBarProps } from './types'
+import { Box, Select, MenuItem, TextField, Typography } from '@mui/material'
 
-export default function ControlsBar({ openDialog, setOpenDialog }: ControlsBarProps) {
+export default function ControlsBar() {
   return (
     <Box
       sx={{
@@ -30,17 +28,6 @@ export default function ControlsBar({ openDialog, setOpenDialog }: ControlsBarPr
         </Typography>
         <TextField type="date" fullWidth />
       </Box>
-
-      <Button
-        variant="outlined"
-        color="primary"
-        sx={{ height: 'fit-content', borderRadius: '9999px' }}
-        onClick={() => setOpenDialog(true)}
-      >
-        Manage Currencies
-      </Button>
-
-      <CurrenciesDialog open={openDialog} onClose={() => setOpenDialog(false)} />
     </Box>
   )
 }
