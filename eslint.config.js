@@ -38,6 +38,9 @@ export default tseslint.config(
       'import/resolver': {
         typescript: {
           project: './tsconfig.json'
+        },
+        node: {
+          extensions: ['.js', '.jsx', '.ts', '.tsx']
         }
       }
     },
