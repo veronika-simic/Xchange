@@ -1,21 +1,29 @@
-import { Box, Paper, Typography } from '@mui/material'
+import { useState } from 'react'
+import { Container, Typography, Paper } from '@mui/material'
+import ControlsBar from '../components/ExchangeRates/ControlsBar'
+import RatesTable from '../components/ExchangeRates/RatesTable'
 
 export default function ExchangeRatesPage() {
+  const [openDialog, setOpenDialog] = useState(false)
+
   return (
-    <Box sx={{ py: 6 }}>
+    <Container sx={{ mt: 6, mb: 8 }}>
       <Typography
         variant="h4"
         fontWeight={600}
         color="primary.main"
         sx={{ mb: 4, textAlign: 'center' }}
       >
-        Exchange Rates History
+        7-Day Exchange Rate History
       </Typography>
 
-      {/* Controls: base currency, date, manage currencies */}
+      <Paper sx={{ p: 3, borderRadius: 4, mb: 6 }}>
+        <ControlsBar openDialog={openDialog} setOpenDialog={setOpenDialog} />
+      </Paper>
 
-      {/* Table */}
-      <Paper sx={{ mt: 6, p: 2, overflowX: 'auto' }}></Paper>
-    </Box>
+      <Paper sx={{ p: 3, borderRadius: 4 }}>
+        <RatesTable />
+      </Paper>
+    </Container>
   )
 }
