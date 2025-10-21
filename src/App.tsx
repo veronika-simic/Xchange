@@ -1,7 +1,12 @@
-import Button from '@mui/material/Button'
-
+import { CssBaseline } from '@mui/material'
+import HeroSection from './components/HeroSection/HeroSection'
 function App() {
-  return <Button variant="contained">Hello World</Button>
+  return (
+    <>
+      <CssBaseline enableColorScheme />
+      <HeroSection />
+    </>
+  )
 }
 
 export default App
