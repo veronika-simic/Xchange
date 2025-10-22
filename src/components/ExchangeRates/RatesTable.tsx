@@ -9,8 +9,11 @@ import {
   Box,
   Button,
   Select,
-  MenuItem
+  MenuItem,
+  IconButton,
+  Tooltip
 } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
 import { useState } from 'react'
 import { useGetExchangeRatesQuery, useGetCurrenciesQuery } from '../../features/api/apiSlice'
 import { getLast7Dates } from '../../utils/dates'
@@ -22,6 +25,7 @@ interface RatesTableProps {
 
 export default function RatesTable({ baseCurrency, selectedDate }: RatesTableProps) {
   const last7Dates = getLast7Dates(selectedDate)
+
   const defaultCurrencies = ['USD', 'EUR', 'JPY', 'CHF', 'CAD', 'AUD', 'ZAR']
   const [displayedCurrencies, setDisplayedCurrencies] = useState<string[]>(defaultCurrencies)
 
@@ -44,6 +48,12 @@ export default function RatesTable({ baseCurrency, selectedDate }: RatesTablePro
     }
   }
 
+  const handleRemoveCurrency = (cur: string) => {
+    if (displayedCurrencies.length > 3) {
+      setDisplayedCurrencies(displayedCurrencies.filter((c) => c !== cur))
+    }
+  }
+
   if (isLoading)
     return (
       <Box sx={{ textAlign: 'center', py: 4 }}>
@@ -63,6 +73,8 @@ export default function RatesTable({ baseCurrency, selectedDate }: RatesTablePro
     (c) => c !== baseCurrency && !displayedCurrencies.includes(c)
   )
 
+  const canRemove = displayedCurrencies.length > 3
+
   return (
     <Box>
       <Table sx={{ minWidth: 600 }}>
@@ -74,17 +86,36 @@ export default function RatesTable({ baseCurrency, selectedDate }: RatesTablePro
                 {d}
               </TableCell>
             ))}
+            <TableCell sx={{ color: 'white', fontWeight: 500 }} align="center">
+              Actions
+            </TableCell>
           </TableRow>
         </TableHead>
+
         <TableBody>
           {displayedCurrencies.map((cur) => (
             <TableRow key={cur} hover>
               <TableCell sx={{ fontWeight: 500 }}>{cur}</TableCell>
+
               {allRates.map((data, i) => (
                 <TableCell key={last7Dates[i]} align="center">
-                  {data ? (data[cur.toLowerCase()]?.toFixed(4) ?? '-') : '-'}
+                  {data ? (data[cur.toLowerCase()]?.toFixed(4) ?? '–') : '–'}
                 </TableCell>
               ))}
+
+              <TableCell align="center">
+                <Tooltip title={canRemove ? `Remove ${cur}` : 'At least 3 currencies must remain'}>
+                  <span>
+                    <IconButton
+                      onClick={() => handleRemoveCurrency(cur)}
+                      color="error"
+                      disabled={!canRemove}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </span>
+                </Tooltip>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
