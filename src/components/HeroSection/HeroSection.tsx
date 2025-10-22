@@ -1,5 +1,4 @@
 import { Box, Container } from '@mui/material'
-import NavigationBar from '../Navigation/NavigationBar'
 import Banner from './Banner'
 
 export default function HeroSection() {
@@ -37,7 +36,6 @@ export default function HeroSection() {
           pb: 18
         }}
       >
-        <NavigationBar />
         <Banner />
       </Container>
     </Box>

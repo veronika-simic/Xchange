@@ -3,6 +3,7 @@ import ControlsBar from '../components/ExchangeRates/ControlsBar'
 import RatesTable from '../components/ExchangeRates/RatesTable'
 import { useState } from 'react'
 import dayjs, { Dayjs } from 'dayjs'
+import HeroSection from '../components/HeroSection/HeroSection'
 
 export default function ExchangeRatesPage() {
   const [baseCurrency, setBaseCurrency] = useState('GBP')
@@ -10,6 +11,7 @@ export default function ExchangeRatesPage() {
 
   return (
     <Container>
+      <HeroSection />
       <Paper sx={{ p: 3, borderRadius: 4, mb: 6 }}>
         <ControlsBar
           baseCurrency={baseCurrency}
