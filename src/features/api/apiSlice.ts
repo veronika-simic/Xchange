@@ -2,7 +2,9 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 const BASE_URL = 'https://cdn.jsdelivr.net/npm/'
 
-const today = new Date().toISOString().split('T')[0]
+interface ExchangeRateApiResponse {
+  [base: string]: Record<string, number>
+}
 
 export const apiSlice = createApi({
   reducerPath: 'api',
@@ -19,14 +21,14 @@ export const apiSlice = createApi({
           .sort()
       }
     }),
-    getExchangeRates: builder.query<Record<string, number>, string>({
-      query: (base) => {
-        const version = `@${today}`
+    getExchangeRates: builder.query<Record<string, number>, { base: string; date?: string }>({
+      query: ({ base, date }) => {
+        const selectedDate = date ?? new Date().toISOString().split('T')[0]
+        const version = `@${selectedDate}`
         return `@fawazahmed0/currency-api${version}/v1/currencies/${base.toLowerCase()}.json`
       },
-      transformResponse: (response: Record<string, Record<string, number>>, _, base) => {
-        return response[base.toLowerCase()]
-      }
+      transformResponse: (response: ExchangeRateApiResponse, _, { base }) =>
+        response[base.toLowerCase()]
     })
   })
 })

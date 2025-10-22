@@ -3,10 +3,23 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs, { Dayjs } from 'dayjs'
-import { useState } from 'react'
+import { useGetCurrenciesQuery } from '../../features/api/apiSlice'
 
-export default function ControlsBar() {
-  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs())
+interface ControlsBarProps {
+  baseCurrency: string
+  onCurrencyChange: (cur: string) => void
+  selectedDate: Dayjs | null
+  onDateChange: (date: Dayjs | null) => void
+}
+
+export default function ControlsBar({
+  baseCurrency,
+  onCurrencyChange,
+  selectedDate,
+  onDateChange
+}: ControlsBarProps) {
+  const { data: currencies = [], isLoading } = useGetCurrenciesQuery()
+
   const minDate = dayjs().subtract(90, 'day')
   const maxDate = dayjs()
 
@@ -24,10 +37,17 @@ export default function ControlsBar() {
         <Typography variant="subtitle2" sx={{ mb: 0.5, fontWeight: 600 }}>
           Base Currency
         </Typography>
-        <Select fullWidth defaultValue="GBP">
-          <MenuItem value="GBP">GBP</MenuItem>
-          <MenuItem value="USD">USD</MenuItem>
-          <MenuItem value="EUR">EUR</MenuItem>
+        <Select
+          fullWidth
+          value={baseCurrency}
+          onChange={(e) => onCurrencyChange(e.target.value)}
+          disabled={isLoading}
+        >
+          {currencies.map((c) => (
+            <MenuItem key={c} value={c}>
+              {c}
+            </MenuItem>
+          ))}
         </Select>
       </Box>
 
@@ -38,7 +58,7 @@ export default function ControlsBar() {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             value={selectedDate}
-            onChange={(newValue) => setSelectedDate(newValue)}
+            onChange={(newValue) => onDateChange(newValue)}
             minDate={minDate}
             maxDate={maxDate}
             slotProps={{ textField: { fullWidth: true } }}

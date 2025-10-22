@@ -14,7 +14,11 @@ export default function ConverterCard() {
     error: currenciesError
   } = useGetCurrenciesQuery()
 
-  const { data: rates, isLoading: loadingRates, error: ratesError } = useGetExchangeRatesQuery(from)
+  const {
+    data: rates,
+    isLoading: loadingRates,
+    error: ratesError
+  } = useGetExchangeRatesQuery({ base: from })
 
   const handleSwapCurrencies = () => {
     setFrom((prevFrom) => {
