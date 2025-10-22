@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Card, CardContent, Box, TextField, MenuItem, IconButton, Typography } from '@mui/material'
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz'
-import { useGetCurrenciesQuery, useGetExchangeRatesQuery } from '../../features/api/apiSlice'
+import { useGetCurrenciesQuery, useGetExchangeRatesQuery } from '../features/api/apiSlice'
 
 export default function ConverterCard() {
   const [amount, setAmount] = useState('1.00')

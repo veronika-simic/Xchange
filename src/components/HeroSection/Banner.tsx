@@ -26,7 +26,7 @@ export default function Banner() {
           opacity: 0.9
         }}
       >
-        Compare 100+ currencies in real time
+        Get currency exchange rates for the past 7 days
       </Typography>
     </Box>
   )

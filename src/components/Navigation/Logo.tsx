@@ -5,7 +5,7 @@ export default function Logo() {
   return (
     <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
       <Typography variant="h5" sx={{ fontWeight: 700 }}>
-        XEChange
+        XE
       </Typography>
     </Link>
   )

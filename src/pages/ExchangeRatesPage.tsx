@@ -1,21 +1,30 @@
-import { Box, Paper, Typography } from '@mui/material'
+import { Container, Paper } from '@mui/material'
+import ControlsBar from '../components/ExchangeRates/ControlsBar'
+import RatesTable from '../components/ExchangeRates/RatesTable'
+import { useState } from 'react'
+import dayjs, { Dayjs } from 'dayjs'
 
 export default function ExchangeRatesPage() {
+  const [baseCurrency, setBaseCurrency] = useState('GBP')
+  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs())
+
   return (
-    <Box sx={{ py: 6 }}>
-      <Typography
-        variant="h4"
-        fontWeight={600}
-        color="primary.main"
-        sx={{ mb: 4, textAlign: 'center' }}
-      >
-        Exchange Rates History
-      </Typography>
+    <Container>
+      <Paper sx={{ p: 3, borderRadius: 4, mb: 6 }}>
+        <ControlsBar
+          baseCurrency={baseCurrency}
+          onCurrencyChange={setBaseCurrency}
+          selectedDate={selectedDate}
+          onDateChange={setSelectedDate}
+        />
+      </Paper>
 
-      {/* Controls: base currency, date, manage currencies */}
-
-      {/* Table */}
-      <Paper sx={{ mt: 6, p: 2, overflowX: 'auto' }}></Paper>
-    </Box>
+      <Paper sx={{ p: 3, borderRadius: 4 }}>
+        <RatesTable
+          baseCurrency={baseCurrency}
+          selectedDate={selectedDate?.format('YYYY-MM-DD') || ''}
+        />
+      </Paper>
+    </Container>
   )
 }
