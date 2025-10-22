@@ -1,21 +1,21 @@
 import { useState } from 'react'
 import { Card, CardContent, Box, TextField, MenuItem, IconButton, Typography } from '@mui/material'
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz'
-import { useCurrencies, useExchangeRate } from '../../hooks/api'
+import { useGetCurrenciesQuery, useGetExchangeRatesQuery } from '../../features/api/apiSlice'
 
 export default function ConverterCard() {
   const [amount, setAmount] = useState('1.00')
   const [from, setFrom] = useState('GBP')
   const [to, setTo] = useState('EUR')
-  const { currencies, loading: loadingCurrencies } = useCurrencies()
 
-  const { result, loading: loadingRate } = useExchangeRate({
-    fromCurrency: from,
-    toCurrency: to,
-    amount: Number(amount)
-  })
+  const {
+    data: currencies = [],
+    isLoading: loadingCurrencies,
+    error: currenciesError
+  } = useGetCurrenciesQuery()
 
-  // Swap the selected currencies
+  const { data: rates, isLoading: loadingRates, error: ratesError } = useGetExchangeRatesQuery(from)
+
   const handleSwapCurrencies = () => {
     setFrom((prevFrom) => {
       setTo(prevFrom)
@@ -23,9 +23,30 @@ export default function ConverterCard() {
     })
   }
 
+  let resultText = ''
+  if (rates && !loadingRates) {
+    const fromLower = from.toLowerCase()
+    const toLower = to.toLowerCase()
+
+    if (fromLower === 'gbp') {
+      resultText = `${amount} ${from} = ${(Number(amount) * rates[toLower]).toFixed(4)} ${to}`
+    } else if (toLower === 'gbp') {
+      resultText = `${amount} ${from} = ${(Number(amount) / rates[fromLower]).toFixed(4)} ${to}`
+    } else {
+      const converted = (Number(amount) / rates[fromLower]) * rates[toLower]
+      resultText = `${amount} ${from} = ${converted.toFixed(4)} ${to}`
+    }
+  }
+
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 6 }}>
-      <Card sx={{ width: { xs: '90%', sm: '70%', md: '50%' }, borderRadius: 4, boxShadow: 2 }}>
+      <Card
+        sx={{
+          width: { xs: '90%', sm: '70%', md: '50%' },
+          borderRadius: 4,
+          boxShadow: 2
+        }}
+      >
         <CardContent>
           <Box sx={{ display: 'grid', gap: 3 }}>
             <TextField
@@ -39,7 +60,11 @@ export default function ConverterCard() {
               }}
             />
 
-            {currencies.length > 0 ? (
+            {loadingCurrencies ? (
+              <Typography>Loading currencies...</Typography>
+            ) : currenciesError ? (
+              <Typography color="error">Failed to load currency list</Typography>
+            ) : (
               <Box
                 sx={{
                   display: 'flex',
@@ -64,7 +89,7 @@ export default function ConverterCard() {
 
                 <IconButton
                   onClick={handleSwapCurrencies}
-                  disabled={loadingRate || loadingCurrencies}
+                  disabled={loadingRates || loadingCurrencies}
                 >
                   <SwapHorizIcon />
                 </IconButton>
@@ -83,11 +108,15 @@ export default function ConverterCard() {
                   ))}
                 </TextField>
               </Box>
-            ) : (
-              <Typography>Loading currencies...</Typography>
             )}
 
-            <Typography sx={{ mt: 1 }}>{result}</Typography>
+            {loadingRates ? (
+              <Typography>Loading exchange rate...</Typography>
+            ) : ratesError ? (
+              <Typography color="error">Failed to load exchange rate</Typography>
+            ) : (
+              <Typography sx={{ mt: 1 }}>{resultText}</Typography>
+            )}
           </Box>
         </CardContent>
       </Card>
