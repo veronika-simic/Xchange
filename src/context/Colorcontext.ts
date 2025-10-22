@@ -1,7 +1,4 @@
 import { createContext } from 'react'
-
-interface ColorContextSchema {
-  toggleColorMode: () => void
-}
+import type { ColorContextSchema } from './types'
 
 export const ColorContext = createContext<ColorContextSchema>({} as ColorContextSchema)

@@ -5,7 +5,10 @@ export default function Banner() {
     <Box
       sx={{
         textAlign: 'center',
-        pb: 14
+        pt: 12,
+        pb: 8,
+        mb: 6,
+        px: 1
       }}
     >
       <Typography
@@ -13,7 +16,8 @@ export default function Banner() {
         sx={{
           fontWeight: 700,
           fontSize: { xs: '2rem', md: '3.5rem' },
-          mb: 2
+          mb: 2,
+          color: 'white'
         }}
       >
         LIVE EXCHANGE RATES
@@ -23,7 +27,8 @@ export default function Banner() {
         variant="h6"
         sx={{
           mb: 3,
-          opacity: 0.9
+          opacity: 0.9,
+          color: 'white'
         }}
       >
         Get currency exchange rates for the past 7 days

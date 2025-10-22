@@ -9,25 +9,35 @@ export default function NavigationBar() {
       sx={{
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between',
         px: { xs: 2, md: 6 },
-        py: 2
+        py: 2,
+        backgroundColor: 'primary.main',
+        justifyContent: 'space-between'
       }}
     >
-      <Logo />
-      <Button
-        component={Link}
-        to="/converter"
-        variant="text"
+      <Box
         sx={{
-          color: 'white',
-          textTransform: 'none',
-          fontWeight: 500,
-          '&:hover': { color: '#e0e0e0' }
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1
         }}
       >
-        Convert
-      </Button>
+        <Logo />
+        <Button
+          component={Link}
+          to="/converter"
+          variant="text"
+          sx={{
+            color: 'white',
+            textTransform: 'none',
+            fontWeight: 500,
+            '&:hover': { color: '#e0e0e0' }
+          }}
+        >
+          Get Exchange
+        </Button>
+      </Box>
+
       <SwitchButton />
     </Box>
   )
