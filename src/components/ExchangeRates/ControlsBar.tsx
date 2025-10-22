@@ -4,6 +4,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs, { Dayjs } from 'dayjs'
 import { useGetCurrenciesQuery } from '../../features/api/apiSlice'
+import { useContext } from 'react'
+import { ColorContext } from '../../context/Colorcontext'
 
 interface ControlsBarProps {
   baseCurrency: string
@@ -23,17 +25,28 @@ export default function ControlsBar({
   const minDate = dayjs().subtract(90, 'day')
   const maxDate = dayjs()
 
+  const colorMode = useContext(ColorContext)
+
+  const getColorMode = () => {
+    if (colorMode.currentColorMode === 'light') {
+      return 'white'
+    }
+    return '#292929'
+  }
+
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexWrap: 'wrap',
+        display: ['block', 'flex'],
         gap: 2,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor: getColorMode(),
+        p: 6,
+        borderRadius: 2
       }}
     >
-      <Box sx={{ minWidth: 150 }}>
+      <Box sx={{ width: '100%', flex: 1, mb: [2, 0] }}>
         <Typography variant="subtitle2" sx={{ mb: 0.5, fontWeight: 600 }}>
           Base Currency
         </Typography>
@@ -51,7 +64,7 @@ export default function ControlsBar({
         </Select>
       </Box>
 
-      <Box sx={{ minWidth: 180 }}>
+      <Box sx={{ width: '100%', flex: 1 }}>
         <Typography variant="subtitle2" sx={{ mb: 0.5, fontWeight: 600 }}>
           Select Date
         </Typography>

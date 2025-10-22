@@ -5,7 +5,7 @@ import ConverterPage from './pages/ConverterPage'
 import { useMemo, useState } from 'react'
 import lightTheme from './theme/light'
 import darkTheme from './theme/dark'
-import { ColorContext } from './models/ColorContext'
+import { ColorContext } from './context/Colorcontext'
 import NotFoundPage from './pages/NotFoundPage'
 import NavigationBar from './components/Navigation/NavigationBar'
 function App() {
@@ -14,9 +14,10 @@ function App() {
     () => ({
       toggleColorMode: () => {
         setMode((prevMode: PaletteMode) => (prevMode === 'light' ? 'dark' : 'light'))
-      }
+      },
+      currentColorMode: mode
     }),
-    []
+    [mode]
   )
 
   const theme = useMemo(() => createTheme(mode === 'light' ? lightTheme : darkTheme), [mode])

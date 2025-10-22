@@ -14,9 +14,10 @@ import {
   Tooltip
 } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useGetExchangeRatesQuery, useGetCurrenciesQuery } from '../../features/api/apiSlice'
 import { getLast7Dates } from '../../utils/dates'
+import { ColorContext } from '../../context/Colorcontext'
 
 interface RatesTableProps {
   baseCurrency: string
@@ -75,107 +76,138 @@ export default function RatesTable({ baseCurrency, selectedDate }: RatesTablePro
 
   const canRemove = displayedCurrencies.length > 3
 
+  const colorMode = useContext(ColorContext)
+
+  const getColorMode = () => {
+    if (colorMode.currentColorMode === 'light') {
+      return 'grey.100'
+    }
+    return 'primary.main'
+  }
+
+  const getContainerColor = () => {
+    if (colorMode.currentColorMode === 'light') {
+      return 'white'
+    }
+    return '#292929'
+  }
   return (
-    <Box>
-      <Table sx={{ minWidth: 600 }}>
-        <TableHead>
-          <TableRow sx={{ backgroundColor: 'primary.main' }}>
-            <TableCell sx={{ color: 'white', fontWeight: 600 }}>Currency</TableCell>
-            {last7Dates.map((d) => (
-              <TableCell key={d} sx={{ color: 'white', fontWeight: 500 }} align="center">
-                {d}
-              </TableCell>
-            ))}
-            <TableCell sx={{ color: 'white', fontWeight: 500 }} align="center"></TableCell>
-          </TableRow>
-        </TableHead>
-
-        <TableBody>
-          {displayedCurrencies.map((cur) => (
-            <TableRow key={cur} hover>
-              <TableCell sx={{ fontWeight: 500 }}>{cur}</TableCell>
-
-              {allRates.map((data, i) => (
-                <TableCell key={last7Dates[i]} align="center">
-                  {data ? (data[cur.toLowerCase()]?.toFixed(4) ?? '-') : '-'}
+    <Box
+      sx={{ overflow: 'auto', mt: 4, backgroundColor: getContainerColor(), p: 6, borderRadius: 2 }}
+    >
+      <Box sx={{ width: '100%', display: 'table', tableLayout: 'fixed' }}>
+        <Table sx={{ minWidth: 600 }}>
+          <TableHead>
+            <TableRow
+              sx={{
+                backgroundColor: colorMode.currentColorMode === 'light' ? 'primary.main' : '#000'
+              }}
+            >
+              <TableCell sx={{ color: 'white', fontWeight: 600 }}>Currency</TableCell>
+              {last7Dates.map((d) => (
+                <TableCell key={d} sx={{ color: 'white', fontWeight: 500 }} align="center">
+                  {d}
                 </TableCell>
               ))}
-
-              <TableCell align="center">
-                <Tooltip title={canRemove ? `Remove ${cur}` : 'At least 3 currencies must remain'}>
-                  <span>
-                    <IconButton
-                      onClick={() => handleRemoveCurrency(cur)}
-                      color="error"
-                      disabled={!canRemove}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </span>
-                </Tooltip>
-              </TableCell>
+              <TableCell sx={{ color: 'white', fontWeight: 500 }} align="center"></TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHead>
 
-      {displayedCurrencies.length < 7 && (
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            mt: 3,
-            gap: 2
-          }}
-        >
-          {!adding ? (
-            <Button variant="contained" onClick={() => setAdding(true)} color="primary">
-              + Add Currency
-            </Button>
-          ) : (
-            <>
-              <Select
-                size="small"
-                value={newCurrency}
-                onChange={(e) => setNewCurrency(e.target.value)}
-                displayEmpty
-                disabled={loadingCurrencies}
-                sx={{ minWidth: 150 }}
-              >
-                <MenuItem value="" disabled>
-                  {loadingCurrencies ? 'Loading...' : 'Select currency'}
-                </MenuItem>
-                {availableCurrencies.map((c) => (
-                  <MenuItem key={c} value={c}>
-                    {c}
-                  </MenuItem>
-                ))}
-              </Select>
-
-              <Button
-                variant="contained"
-                color="success"
-                onClick={handleAddCurrency}
-                disabled={!newCurrency}
-              >
-                Add
-              </Button>
-
-              <Button
-                variant="outlined"
-                color="error"
-                onClick={() => {
-                  setAdding(false)
-                  setNewCurrency('')
+          <TableBody>
+            {displayedCurrencies.map((cur, index) => (
+              <TableRow
+                key={cur}
+                hover
+                sx={{
+                  backgroundColor: index % 2 === 0 ? 'background.paper' : getColorMode()
                 }}
               >
-                Cancel
+                <TableCell sx={{ fontWeight: 500 }}>{cur}</TableCell>
+
+                {allRates.map((data, i) => (
+                  <TableCell key={last7Dates[i]} align="center">
+                    {data ? (data[cur.toLowerCase()]?.toFixed(4) ?? '-') : '-'}
+                  </TableCell>
+                ))}
+
+                <TableCell align="center">
+                  <Tooltip
+                    title={canRemove ? `Remove ${cur}` : 'At least 3 currencies must remain'}
+                  >
+                    <span>
+                      <IconButton
+                        onClick={() => handleRemoveCurrency(cur)}
+                        color="secondary"
+                        disabled={!canRemove}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </span>
+                  </Tooltip>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+
+        {displayedCurrencies.length < 7 && (
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              mt: 3,
+              gap: 2
+            }}
+          >
+            {!adding ? (
+              <Button variant="contained" onClick={() => setAdding(true)} color="primary">
+                + Add Currency
               </Button>
-            </>
-          )}
-        </Box>
-      )}
+            ) : (
+              <>
+                <Select
+                  size="small"
+                  value={newCurrency}
+                  onChange={(e) => setNewCurrency(e.target.value)}
+                  displayEmpty
+                  disabled={loadingCurrencies}
+                  sx={{ minWidth: 150 }}
+                >
+                  <MenuItem value="" disabled>
+                    {loadingCurrencies ? 'Loading...' : 'Select currency'}
+                  </MenuItem>
+                  {availableCurrencies.map((c) => (
+                    <MenuItem key={c} value={c}>
+                      {c}
+                    </MenuItem>
+                  ))}
+                </Select>
+
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={handleAddCurrency}
+                  disabled={!newCurrency}
+                >
+                  Add
+                </Button>
+
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={() => {
+                    setAdding(false)
+                    setNewCurrency('')
+                  }}
+                >
+                  Cancel
+                </Button>
+              </>
+            )}
+          </Box>
+        )}
+      </Box>
     </Box>
   )
 }

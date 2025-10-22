@@ -1,43 +1,27 @@
-import { Box, Container } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
 import Banner from './Banner'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import type { RefObject } from 'react'
 
-export default function HeroSection() {
+interface HeroSectionProps {
+  scrollToRef: RefObject<HTMLDivElement | null>
+}
+
+export default function HeroSection({ scrollToRef }: HeroSectionProps) {
+  const handleScroll = () => {
+    scrollToRef?.current?.scrollIntoView({ behavior: 'smooth' })
+  }
+
   return (
-    <Box
-      sx={{
-        position: 'relative',
-        height: { xs: '60vh', md: '70vh' },
-        backgroundColor: 'primary.main',
-        color: 'white',
-        overflow: 'hidden'
-      }}
-    >
-      <Box
-        sx={{
-          position: 'absolute',
-          bottom: -1,
-          left: 0,
-          width: '100%',
-          height: '100px',
-          backgroundColor: 'background.default',
-          borderTopLeftRadius: '50% 40px',
-          borderTopRightRadius: '50% 40px'
-        }}
-      />
+    <Box sx={{ backgroundColor: 'primary.main' }}>
+      <Banner />
 
-      <Container
-        sx={{
-          position: 'relative',
-          zIndex: 2,
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          pb: 18
-        }}
+      <IconButton
+        onClick={handleScroll}
+        sx={{ display: 'block', pb: '20px', margin: '0 auto 40px', color: 'white' }}
       >
-        <Banner />
-      </Container>
+        <KeyboardArrowDownIcon sx={{ fontSize: '4rem' }} />
+      </IconButton>
     </Box>
   )
 }
