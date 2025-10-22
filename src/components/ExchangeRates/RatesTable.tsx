@@ -86,9 +86,7 @@ export default function RatesTable({ baseCurrency, selectedDate }: RatesTablePro
                 {d}
               </TableCell>
             ))}
-            <TableCell sx={{ color: 'white', fontWeight: 500 }} align="center">
-              Actions
-            </TableCell>
+            <TableCell sx={{ color: 'white', fontWeight: 500 }} align="center"></TableCell>
           </TableRow>
         </TableHead>
 
@@ -99,7 +97,7 @@ export default function RatesTable({ baseCurrency, selectedDate }: RatesTablePro
 
               {allRates.map((data, i) => (
                 <TableCell key={last7Dates[i]} align="center">
-                  {data ? (data[cur.toLowerCase()]?.toFixed(4) ?? '–') : '–'}
+                  {data ? (data[cur.toLowerCase()]?.toFixed(4) ?? '-') : '-'}
                 </TableCell>
               ))}
 
