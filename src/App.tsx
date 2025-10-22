@@ -1,12 +1,13 @@
 import { createTheme, CssBaseline, ThemeProvider, type PaletteMode } from '@mui/material'
-import { Routes, Route } from 'react-router-dom'
-import HeroSection from './components/HeroSection/HeroSection'
+import { Routes, Route, Outlet } from 'react-router-dom'
 import ExchangeRatesPage from './pages/ExchangeRatesPage'
 import ConverterPage from './pages/ConverterPage'
 import { useMemo, useState } from 'react'
 import lightTheme from './theme/light'
 import darkTheme from './theme/dark'
 import { ColorContext } from './models/ColorContext'
+import NotFoundPage from './pages/NotFoundPage'
+import NavigationBar from './components/Navigation/NavigationBar'
 function App() {
   const [mode, setMode] = useState<PaletteMode>('light')
   const colorMode = useMemo(
@@ -25,15 +26,17 @@ function App() {
         <CssBaseline enableColorScheme />
         <Routes>
           <Route
-            path="/"
             element={
               <>
-                <HeroSection />
-                <ExchangeRatesPage />
+                <NavigationBar />
+                <Outlet />
               </>
             }
-          />
-          <Route path="/converter" element={<ConverterPage />} />
+          >
+            <Route path="/" element={<ExchangeRatesPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+            <Route path="/converter" element={<ConverterPage />} />
+          </Route>
         </Routes>
       </ThemeProvider>
     </ColorContext.Provider>
