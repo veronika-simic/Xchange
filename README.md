@@ -75,7 +75,7 @@ To see the project in browser visit:
 
 ## Project Status
 
-Project is: _in progress_
+Project is: _in progress_ (main functionality done)
 
 ## Room for Improvement
 
