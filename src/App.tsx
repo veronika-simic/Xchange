@@ -8,6 +8,7 @@ import darkTheme from './theme/dark'
 import { ColorContext } from './context/Colorcontext'
 import NotFoundPage from './pages/NotFoundPage'
 import NavigationBar from './components/Navigation/NavigationBar'
+import Footer from './components/Footer/Footer'
 function App() {
   const [mode, setMode] = useState<PaletteMode>('light')
   const colorMode = useMemo(
@@ -31,6 +32,7 @@ function App() {
               <>
                 <NavigationBar />
                 <Outlet />
+                <Footer />
               </>
             }
           >
