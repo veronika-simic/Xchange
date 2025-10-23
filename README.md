@@ -1,7 +1,7 @@
 # Project Name
 
 > Xchange a modern web application for visualizing and tracking currency exchange rates over time.
-> Live demo [_here_]().
+> Live demo [_here_](https://xchange-beta.vercel.app/).
 
 ## Table of Contents
 
